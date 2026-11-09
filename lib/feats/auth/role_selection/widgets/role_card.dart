@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import '../../../../core/const/app_text_styles.dart';
 import '../../models/user_role.dart';
@@ -19,6 +22,8 @@ class RoleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final radius = 24.r;
     final height = 128.h;
+    final palette = context.colors;
+    final strings = AppStrings.of(context);
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -31,7 +36,7 @@ class RoleCard extends StatelessWidget {
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                Positioned.fill(child: _background(radius)),
+                Positioned.fill(child: _background(radius, palette)),
                 PositionedDirectional(
                   start: 0,
                   top: -height * 0.08,
@@ -39,7 +44,7 @@ class RoleCard extends StatelessWidget {
                   width: imageWidth,
                   child: _image(radius),
                 ),
-                Positioned.fill(child: _content(imageWidth)),
+                Positioned.fill(child: _content(context, imageWidth, strings)),
               ],
             );
           },
@@ -48,15 +53,15 @@ class RoleCard extends StatelessWidget {
     );
   }
 
-  Widget _background(double radius) {
+  Widget _background(double radius, AppPalette palette) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeOut,
       decoration: BoxDecoration(
-        color: role.background,
+        color: role.background(palette),
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(
-          color: selected ? role.accent : role.border,
+          color: selected ? role.accent : role.border(palette),
           width: selected ? 2 : 1,
         ),
         boxShadow: selected
@@ -91,13 +96,13 @@ class RoleCard extends StatelessWidget {
     );
   }
 
-  Widget _content(double imageWidth) {
+  Widget _content(BuildContext context, double imageWidth, AppStrings strings) {
     return Padding(
       padding: EdgeInsetsDirectional.only(end: 16.w),
       child: Row(
         children: [
           SizedBox(width: imageWidth + 8.w),
-          Expanded(child: _texts()),
+          Expanded(child: _texts(context, strings)),
           SizedBox(width: 8.w),
           _chevron(),
         ],
@@ -105,18 +110,18 @@ class RoleCard extends StatelessWidget {
     );
   }
 
-  Widget _texts() {
+  Widget _texts(BuildContext context, AppStrings strings) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 6.h,
       children: [
-        Text(role.title, style: AppTextStyles.cardTitle),
+        Text(role.title(strings), style: AppTextStyles.cardTitle(context)),
         Text(
-          role.description,
+          role.description(strings),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.cardDescription,
+          style: AppTextStyles.cardDescription(context),
         ),
       ],
     );
@@ -132,8 +137,7 @@ class RoleCard extends StatelessWidget {
         color: selected ? role.accent : role.accent.withValues(alpha: 0.14),
       ),
       child: Icon(
-        Icons.chevron_right_rounded,
-        textDirection: TextDirection.ltr,
+        SolarIconsOutline.altArrowRight,
         color: selected ? Colors.white : role.accent,
         size: 26.r,
       ),

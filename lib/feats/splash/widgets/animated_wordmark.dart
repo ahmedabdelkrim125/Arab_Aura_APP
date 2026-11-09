@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 
 import '../../../core/const/app_images.dart';
@@ -11,6 +12,10 @@ class AnimatedWordmark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final asset = context.colors.isDark
+        ? AppImages.wordmarkDark
+        : AppImages.wordmark;
+
     return AnimatedBuilder(
       animation: animations.wordmarkReveal,
       builder: (context, child) {
@@ -26,7 +31,7 @@ class AnimatedWordmark extends StatelessWidget {
           ),
         );
       },
-      child: Image.asset(AppImages.wordmark, width: 240.w, fit: BoxFit.contain),
+      child: Image.asset(asset, width: 240.w, fit: BoxFit.contain),
     );
   }
 }

@@ -5,6 +5,10 @@ class AppImages {
 
   static const String logo = '$_base/logo_app.png';
   static const String wordmark = '$_base/arab_aura_wordmark.png';
+  static const String wordmarkDark = '$_base/arab_aura_wordmark_dark.png';
+
+  static const String lightMode = '$_base/light_mode.png';
+  static const String darkMode = '$_base/dark_mode.png';
 
   static const String onboarding1 = '$_base/onboarding_1.png';
   static const String onboarding2 = '$_base/onboarding_2.png';

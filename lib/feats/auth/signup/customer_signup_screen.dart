@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import 'package:arab_ora_app/core/routing/app_routes.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import 'package:arab_ora_app/core/utils/validators.dart';
 import 'package:arab_ora_app/core/widgets/app_button.dart';
 import 'package:arab_ora_app/core/widgets/app_text_field.dart';
-import '../../../core/const/app_colors.dart';
 import '../widgets/auth_footer_link.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/auth_scaffold.dart';
@@ -49,14 +51,16 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
+
     return AuthScaffold(
       showBack: true,
       children: [
         SizedBox(height: 8.h),
-        const AuthHeader(
-          titleStart: 'إنشاء',
-          titleEnd: 'حساب جديد',
-          subtitle: 'سجّل بياناتك وابدأ التسوق من أفضل البراندات',
+        AuthHeader(
+          titleStart: strings.customerTitleStart,
+          titleEnd: strings.customerTitleEnd,
+          subtitle: strings.customerSubtitle,
         ),
         SizedBox(height: 24.h),
         Form(
@@ -66,31 +70,31 @@ class _CustomerSignupScreenState extends State<CustomerSignupScreen> {
             children: [
               AppTextField(
                 controller: _name,
-                hint: 'الاسم بالكامل',
-                prefixIcon: Icons.person_outline_rounded,
+                hint: strings.fullName,
+                prefixIcon: SolarIconsOutline.user,
                 autofillHints: const [AutofillHints.name],
-                validator: Validators.notEmpty,
+                validator: Validators.notEmpty(strings),
               ),
               EmailField(controller: _email),
               PhoneField(controller: _phone),
               PasswordFields(password: _password, confirm: _confirm),
-              TermsCheckbox(),
+              TermsCheckbox(requiredMessage: strings.termsRequired),
             ],
           ),
         ),
         SizedBox(height: 20.h),
         AppButton(
-          label: 'إنشاء الحساب',
-          trailingIcon: Icons.arrow_forward_rounded,
-          gradient: AppColors.primaryGradient,
+          label: strings.createAccountButton,
+          trailingIcon: SolarIconsOutline.arrowRight,
+          gradient: context.colors.primaryGradient,
           height: 58.h,
           radius: 18.r,
           onPressed: _submit,
         ),
         SizedBox(height: 16.h),
         AuthFooterLink(
-          text: 'لديك حساب بالفعل؟',
-          linkText: 'تسجيل الدخول',
+          text: strings.haveAccount,
+          linkText: strings.login,
           onTap: _goToLogin,
         ),
         SizedBox(height: 24.h),

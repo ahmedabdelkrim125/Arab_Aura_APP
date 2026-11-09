@@ -1,3 +1,4 @@
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import '../../core/const/app_images.dart';
 
 class OnboardingItem {
@@ -17,25 +18,32 @@ class OnboardingItem {
 class OnboardingData {
   OnboardingData._();
 
-  static const List<OnboardingItem> items = [
-    OnboardingItem(
-      image: AppImages.onboarding1,
-      titleStart: 'كل البراندات ..',
-      titleEnd: 'في مكان واحد',
-      subtitle:
-          'اكتشف آلاف المنتجات من أفضل البراندات في تجربة تسوق واحدة وسهلة',
-    ),
-    OnboardingItem(
-      image: AppImages.onboarding2,
-      titleStart: 'أشهر البراندات ..',
-      titleEnd: 'بين يديك',
-      subtitle: 'تسوق من أفضل العلامات التجارية العالمية والمحلية في مكان واحد',
-    ),
-    OnboardingItem(
-      image: AppImages.onboarding3,
-      titleStart: 'توصيل سريع ..',
-      titleEnd: 'لباب بيتك',
-      subtitle: 'اطلب منتجاتك المفضلة من مختلف البراندات واستلمها بسرعة وأمان',
-    ),
+  static const List<String> images = [
+    AppImages.onboarding1,
+    AppImages.onboarding2,
+    AppImages.onboarding3,
   ];
+
+  static List<OnboardingItem> items(AppStrings strings) {
+    return [
+      OnboardingItem(
+        image: AppImages.onboarding1,
+        titleStart: strings.onboarding1Start,
+        titleEnd: strings.onboarding1End,
+        subtitle: strings.onboarding1Subtitle,
+      ),
+      OnboardingItem(
+        image: AppImages.onboarding2,
+        titleStart: strings.onboarding2Start,
+        titleEnd: strings.onboarding2End,
+        subtitle: strings.onboarding2Subtitle,
+      ),
+      OnboardingItem(
+        image: AppImages.onboarding3,
+        titleStart: strings.onboarding3Start,
+        titleEnd: strings.onboarding3End,
+        subtitle: strings.onboarding3Subtitle,
+      ),
+    ];
+  }
 }

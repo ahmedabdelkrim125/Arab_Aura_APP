@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import 'package:arab_ora_app/core/routing/app_routes.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import 'package:arab_ora_app/core/utils/validators.dart';
 import 'package:arab_ora_app/core/widgets/app_button.dart';
 import 'package:arab_ora_app/core/widgets/app_text_field.dart';
 import 'package:arab_ora_app/core/widgets/fade_slide_in.dart';
-import '../../../core/const/app_colors.dart';
 import '../../../core/const/app_images.dart';
 import '../widgets/auth_footer_link.dart';
 import '../widgets/auth_header.dart';
@@ -46,22 +48,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
+
     return AuthScaffold(
       children: [
         FadeSlideIn(
           child: SizedBox(
-            height: 22.sh,
-            child: Center(
-              child: Image.asset(AppImages.logo, height: 120.h),
-            ),
+            height: 20.sh,
+            child: Center(child: Image.asset(AppImages.logo, height: 120.h)),
           ),
         ),
-        const FadeSlideIn(
+        FadeSlideIn(
           index: 1,
           child: AuthHeader(
-            titleStart: 'مرحباً بك',
-            titleEnd: 'مجدداً',
-            subtitle: 'سجّل الدخول لمتابعة التسوق وطلب منتجاتك المفضلة',
+            titleStart: strings.loginTitleStart,
+            titleEnd: strings.loginTitleEnd,
+            subtitle: strings.loginSubtitle,
           ),
         ),
         SizedBox(height: 24.h),
@@ -75,12 +77,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 EmailField(controller: _email),
                 AppTextField(
                   controller: _password,
-                  hint: 'كلمة المرور',
-                  prefixIcon: Icons.lock_outline_rounded,
+                  hint: strings.password,
+                  prefixIcon: SolarIconsOutline.lock,
                   isPassword: true,
                   textInputAction: TextInputAction.done,
                   autofillHints: const [AutofillHints.password],
-                  validator: Validators.notEmpty,
+                  validator: Validators.notEmpty(strings),
                 ),
               ],
             ),
@@ -98,9 +100,9 @@ class _LoginScreenState extends State<LoginScreen> {
         FadeSlideIn(
           index: 4,
           child: AppButton(
-            label: 'تسجيل الدخول',
-            trailingIcon: Icons.arrow_forward_rounded,
-            gradient: AppColors.primaryGradient,
+            label: strings.login,
+            trailingIcon: SolarIconsOutline.arrowRight,
+            gradient: context.colors.primaryGradient,
             height: 58.h,
             radius: 18.r,
             onPressed: _submit,
@@ -117,8 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
         FadeSlideIn(
           index: 7,
           child: AuthFooterLink(
-            text: 'ليس لديك حساب؟',
-            linkText: 'إنشاء حساب جديد',
+            text: strings.noAccount,
+            linkText: strings.createNewAccount,
             onTap: _goToSignup,
           ),
         ),

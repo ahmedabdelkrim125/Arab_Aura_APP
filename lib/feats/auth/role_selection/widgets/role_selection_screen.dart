@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import 'package:arab_ora_app/core/routing/app_routes.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import 'package:arab_ora_app/core/widgets/app_button.dart';
@@ -36,15 +38,16 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
+
     return AuthScaffold(
       children: [
-        SizedBox(height: 4.sh),
-        const FadeSlideIn(
+        SizedBox(height: 2.sh),
+        FadeSlideIn(
           child: AuthHeader(
-            titleStart: 'زائرنا',
-            titleEnd: 'الكريم!',
-            subtitle:
-                'استكشف الأدوار المتاحة وانضم إلينا في عرب أورا واختر ما يناسبك للبدء',
+            titleStart: strings.roleSelectionStart,
+            titleEnd: strings.roleSelectionEnd,
+            subtitle: strings.roleSelectionSubtitle,
           ),
         ),
         SizedBox(height: 28.h),
@@ -64,8 +67,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
         FadeSlideIn(
           index: 4,
           child: AppButton(
-            label: 'انضم إلينا الآن',
-            trailingIcon: Icons.arrow_forward_rounded,
+            label: strings.joinNow,
+            trailingIcon: SolarIconsOutline.arrowRight,
             height: 58.h,
             radius: 18.r,
             onPressed: _join,
@@ -75,8 +78,8 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
         FadeSlideIn(
           index: 5,
           child: AuthFooterLink(
-            text: 'لديك حساب بالفعل؟',
-            linkText: 'تسجيل الدخول',
+            text: strings.haveAccount,
+            linkText: strings.login,
             onTap: _goToLogin,
           ),
         ),

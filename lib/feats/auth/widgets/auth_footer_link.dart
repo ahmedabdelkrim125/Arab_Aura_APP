@@ -21,13 +21,13 @@ class AuthFooterLink extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       spacing: 4.w,
       children: [
-        Text(text, style: AppTextStyles.caption),
+        Text(text, style: AppTextStyles.caption(context)),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: onTap,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 6.h),
-            child: Text(linkText, style: AppTextStyles.link),
+            child: Text(linkText, style: AppTextStyles.link(context)),
           ),
         ),
       ],

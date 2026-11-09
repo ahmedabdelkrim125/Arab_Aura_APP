@@ -1,9 +1,15 @@
+import 'package:arab_ora_app/core/localization/app_strings.dart';
+
 enum VehicleType {
-  motorcycle('دراجة نارية'),
-  bicycle('دراجة'),
-  car('سيارة');
+  motorcycle,
+  bicycle,
+  car;
 
-  const VehicleType(this.label);
-
-  final String label;
+  String label(AppStrings strings) {
+    return switch (this) {
+      VehicleType.motorcycle => strings.vehicleMotorcycle,
+      VehicleType.bicycle => strings.vehicleBicycle,
+      VehicleType.car => strings.vehicleCar,
+    };
+  }
 }

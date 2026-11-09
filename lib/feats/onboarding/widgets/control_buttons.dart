@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
-import '../../../core/const/app_colors.dart';
 import '../../../core/const/app_text_styles.dart';
 
 class ControlMetrics {
@@ -16,14 +18,17 @@ class BackCircleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colors;
+
     return Container(
       width: ControlMetrics.size,
       height: ControlMetrics.size,
-      decoration: const BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.surface,
+      decoration: BoxDecoration(shape: BoxShape.circle, color: palette.surface),
+      child: Icon(
+        SolarIconsOutline.arrowLeft,
+        color: palette.textSecondary,
+        size: 24.r,
       ),
-      child: Icon(Icons.arrow_back_rounded, color: AppColors.grey, size: 24.r),
     );
   }
 }
@@ -35,6 +40,7 @@ class NextPillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colors;
     final width = lerpDouble(
       ControlMetrics.size,
       ControlMetrics.wideWidth,
@@ -46,11 +52,11 @@ class NextPillButton extends StatelessWidget {
       height: ControlMetrics.size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: AppColors.navy,
+        color: palette.primary,
         borderRadius: BorderRadius.circular(40.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.navy.withValues(alpha: 0.3),
+            color: palette.primary.withValues(alpha: 0.3),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
@@ -68,16 +74,20 @@ class NextPillButton extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(right: 10.w),
                   child: Text(
-                    'ابدأ الآن',
+                    AppStrings.of(context).startNow,
                     maxLines: 1,
                     softWrap: false,
-                    style: AppTextStyles.button,
+                    style: AppTextStyles.button(context),
                   ),
                 ),
               ),
             ),
           ),
-          Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 26.r),
+          Icon(
+            SolarIconsOutline.arrowRight,
+            color: palette.onPrimary,
+            size: 26.r,
+          ),
         ],
       ),
     );

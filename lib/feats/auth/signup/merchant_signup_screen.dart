@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import 'package:arab_ora_app/core/routing/app_routes.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import 'package:arab_ora_app/core/utils/validators.dart';
 import 'package:arab_ora_app/core/widgets/app_button.dart';
 import 'package:arab_ora_app/core/widgets/app_text_field.dart';
-import '../../../core/const/app_colors.dart';
 import '../widgets/auth_footer_link.dart';
 import '../widgets/auth_header.dart';
 import '../widgets/auth_scaffold.dart';
@@ -59,14 +61,16 @@ class _MerchantSignupScreenState extends State<MerchantSignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
+
     return AuthScaffold(
       showBack: true,
       children: [
         SizedBox(height: 8.h),
-        const AuthHeader(
-          titleStart: 'سجّل',
-          titleEnd: 'كتاجر',
-          subtitle: 'أدخل بيانات متجرك لنراجعها ونفعّل حسابك بسرعة',
+        AuthHeader(
+          titleStart: strings.merchantTitleStart,
+          titleEnd: strings.merchantTitleEnd,
+          subtitle: strings.merchantSubtitle,
         ),
         SizedBox(height: 24.h),
         Form(
@@ -76,62 +80,63 @@ class _MerchantSignupScreenState extends State<MerchantSignupScreen> {
             children: [
               AppTextField(
                 controller: _storeName,
-                hint: 'اسم المتجر / البراند',
-                prefixIcon: Icons.storefront_outlined,
-                validator: Validators.notEmpty,
+                hint: strings.storeName,
+                prefixIcon: SolarIconsOutline.shop,
+                validator: Validators.notEmpty(strings),
               ),
               AppTextField(
                 controller: _ownerName,
-                hint: 'اسم المالك بالكامل',
-                prefixIcon: Icons.person_outline_rounded,
+                hint: strings.ownerName,
+                prefixIcon: SolarIconsOutline.user,
                 autofillHints: const [AutofillHints.name],
-                validator: Validators.notEmpty,
+                validator: Validators.notEmpty(strings),
               ),
               EmailField(controller: _email),
               PhoneField(controller: _phone),
               AppTextField(
                 controller: _registrationNumber,
-                hint: 'رقم السجل التجاري',
-                prefixIcon: Icons.receipt_long_outlined,
+                hint: strings.commercialRegister,
+                prefixIcon: SolarIconsOutline.bill,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                validator: Validators.notEmpty,
+                validator: Validators.notEmpty(strings),
               ),
               AppTextField(
                 controller: _taxNumber,
-                hint: 'الرقم الضريبي (اختياري)',
-                prefixIcon: Icons.tag_rounded,
+                hint: strings.taxNumber,
+                prefixIcon: SolarIconsOutline.hashtag,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
               AppTextField(
                 controller: _address,
-                hint: 'عنوان المتجر',
-                prefixIcon: Icons.location_on_outlined,
-                validator: Validators.notEmpty,
+                hint: strings.storeAddress,
+                prefixIcon: SolarIconsOutline.mapPoint,
+                validator: Validators.notEmpty(strings),
               ),
               PhotoPickerField(
-                label: 'صورة السجل التجاري',
-                icon: Icons.description_outlined,
+                label: strings.commercialRegisterPhoto,
+                icon: SolarIconsOutline.document,
+                requiredMessage: strings.photoRequired,
               ),
               PasswordFields(password: _password, confirm: _confirm),
-              TermsCheckbox(),
+              TermsCheckbox(requiredMessage: strings.termsRequired),
             ],
           ),
         ),
         SizedBox(height: 20.h),
         AppButton(
-          label: 'إرسال طلب الانضمام',
-          trailingIcon: Icons.arrow_forward_rounded,
-          gradient: AppColors.primaryGradient,
+          label: strings.submitJoinRequest,
+          trailingIcon: SolarIconsOutline.arrowRight,
+          gradient: context.colors.primaryGradient,
           height: 58.h,
           radius: 18.r,
           onPressed: _submit,
         ),
         SizedBox(height: 16.h),
         AuthFooterLink(
-          text: 'لديك حساب بالفعل؟',
-          linkText: 'تسجيل الدخول',
+          text: strings.haveAccount,
+          linkText: strings.login,
           onTap: _goToLogin,
         ),
         SizedBox(height: 24.h),

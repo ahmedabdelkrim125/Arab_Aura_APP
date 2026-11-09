@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
-import '../../../core/const/app_colors.dart';
 import '../../../core/const/app_text_styles.dart';
 
 class ChoiceGroup<T> extends StatelessWidget {
@@ -25,7 +25,7 @@ class ChoiceGroup<T> extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8.h,
       children: [
-        Text(label, style: AppTextStyles.fieldLabel),
+        Text(label, style: AppTextStyles.fieldLabel(context)),
         Row(
           spacing: 8.w,
           children: [
@@ -57,6 +57,8 @@ class _ChoiceChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colors;
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
@@ -65,19 +67,19 @@ class _ChoiceChip extends StatelessWidget {
         height: 48.h,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: selected ? AppColors.navy : AppColors.fieldFill,
+          color: selected ? palette.primary : palette.fieldFill,
           borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
-            color: selected ? AppColors.navy : AppColors.border,
+            color: selected ? palette.primary : palette.border,
           ),
         ),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
             label,
-            style: AppTextStyles.fieldLabel.copyWith(
-              color: selected ? Colors.white : AppColors.navy,
-            ),
+            style: AppTextStyles.fieldLabel(
+              context,
+            ).copyWith(color: selected ? palette.onPrimary : palette.text),
           ),
         ),
       ),

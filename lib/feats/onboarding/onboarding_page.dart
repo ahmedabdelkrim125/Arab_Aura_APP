@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import 'package:arab_ora_app/core/routing/app_routes.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
+import 'package:arab_ora_app/core/widgets/settings_bar.dart';
 import 'onboarding_data.dart';
 import 'onboarding_slide.dart';
 import 'widgets/onboarding_backdrop.dart';
@@ -20,11 +22,12 @@ class _OnboardingPageState extends State<OnboardingPage>
   static const Duration _pageDuration = Duration(milliseconds: 750);
   static const Curve _pageCurve = Curves.easeInOutCubicEmphasized;
 
-  final List<OnboardingItem> _items = OnboardingData.items;
   final PageController _pageController = PageController();
   final ValueNotifier<double> _page = ValueNotifier<double>(0);
   late final AnimationController _idle;
   int _current = 0;
+
+  int get _count => OnboardingData.images.length;
 
   @override
   void initState() {
@@ -39,8 +42,8 @@ class _OnboardingPageState extends State<OnboardingPage>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    for (final item in _items) {
-      precacheImage(AssetImage(item.image), context);
+    for (final image in OnboardingData.images) {
+      precacheImage(AssetImage(image), context);
     }
   }
 
@@ -54,7 +57,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _next() {
-    if (_current >= _items.length - 1) {
+    if (_current >= _count - 1) {
       _finish();
       return;
     }
@@ -81,6 +84,8 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   @override
   Widget build(BuildContext context) {
+    final items = OnboardingData.items(AppStrings.of(context));
+
     return Scaffold(
       body: Stack(
         children: [
@@ -88,7 +93,7 @@ class _OnboardingPageState extends State<OnboardingPage>
             child: OnboardingBackdrop(
               page: _page,
               idle: _idle,
-              count: _items.length,
+              count: items.length,
             ),
           ),
           SafeArea(
@@ -100,10 +105,10 @@ class _OnboardingPageState extends State<OnboardingPage>
                   PageView.builder(
                     controller: _pageController,
                     physics: const ClampingScrollPhysics(),
-                    itemCount: _items.length,
+                    itemCount: items.length,
                     onPageChanged: _onPageChanged,
                     itemBuilder: (context, index) => OnboardingSlide(
-                      item: _items[index],
+                      item: items[index],
                       index: index,
                       page: _page,
                       idle: _idle,
@@ -111,9 +116,19 @@ class _OnboardingPageState extends State<OnboardingPage>
                     ),
                   ),
                   Align(
-                    alignment: Alignment.topRight,
+                    alignment: AlignmentDirectional.topStart,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 12.h, right: 20.w),
+                      padding: EdgeInsetsDirectional.only(
+                        top: 8.h,
+                        start: 20.w,
+                      ),
+                      child: const SettingsBar(),
+                    ),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.topEnd,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.only(top: 14.h, end: 20.w),
                       child: SkipButton(onTap: _finish),
                     ),
                   ),
@@ -123,7 +138,7 @@ class _OnboardingPageState extends State<OnboardingPage>
                       padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 28.h),
                       child: OnboardingControls(
                         page: _page,
-                        count: _items.length,
+                        count: items.length,
                         onNext: _next,
                         onBack: _back,
                       ),

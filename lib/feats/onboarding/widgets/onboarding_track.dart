@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import '../../../core/const/app_colors.dart';
 
 class OnboardingTrack extends StatelessWidget {
@@ -12,9 +12,16 @@ class OnboardingTrack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colors;
+
     return RepaintBoundary(
       child: CustomPaint(
-        painter: _TrackPainter(page, count),
+        painter: _TrackPainter(
+          page,
+          count,
+          palette.trackBase,
+          palette.trackMarker,
+        ),
         size: Size.infinite,
       ),
     );
@@ -27,8 +34,11 @@ class _TrackPainter extends CustomPainter {
 
   final ValueListenable<double> page;
   final int count;
+  final Color baseColor;
+  final Color markerColor;
 
-  _TrackPainter(this.page, this.count) : super(repaint: page);
+  _TrackPainter(this.page, this.count, this.baseColor, this.markerColor)
+    : super(repaint: page);
 
   double _y(double x, Size size) {
     return size.height / 2 +
@@ -57,10 +67,10 @@ class _TrackPainter extends CustomPainter {
       ..strokeWidth = 6
       ..shader = LinearGradient(
         colors: [
-          AppColors.greyLight.withValues(alpha: 0),
-          AppColors.greyLight,
-          AppColors.greyLight,
-          AppColors.greyLight.withValues(alpha: 0),
+          baseColor.withValues(alpha: 0),
+          baseColor,
+          baseColor,
+          baseColor.withValues(alpha: 0),
         ],
         stops: const [0, 0.25, 0.75, 1],
       ).createShader(bounds);
@@ -91,7 +101,7 @@ class _TrackPainter extends CustomPainter {
       final paint = Paint()
         ..color = passed
             ? AppColors.tealLight.withValues(alpha: 0.55)
-            : const Color(0xFFCBD3DB);
+            : markerColor;
 
       canvas.save();
       canvas.translate(x, _y(x, size));
@@ -131,6 +141,8 @@ class _TrackPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _TrackPainter oldDelegate) {
-    return oldDelegate.count != count;
+    return oldDelegate.count != count ||
+        oldDelegate.baseColor != baseColor ||
+        oldDelegate.markerColor != markerColor;
   }
 }

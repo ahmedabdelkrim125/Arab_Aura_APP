@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
-import '../../../core/const/app_colors.dart';
 import '../../../core/const/app_text_styles.dart';
 
 Future<ImageSource?> showPhotoSourceSheet(BuildContext context) {
   return showModalBottomSheet<ImageSource>(
     context: context,
-    backgroundColor: Colors.white,
+    backgroundColor: context.colors.card,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
     ),
-    builder: (context) => Directionality(
-      textDirection: TextDirection.rtl,
-      child: SafeArea(
+    builder: (context) {
+      final strings = AppStrings.of(context);
+
+      return SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               _SourceTile(
-                icon: Icons.photo_camera_outlined,
-                label: 'التقاط صورة',
+                icon: SolarIconsOutline.camera,
+                label: strings.takePhoto,
                 source: ImageSource.camera,
               ),
               _SourceTile(
-                icon: Icons.photo_library_outlined,
-                label: 'اختيار من المعرض',
+                icon: SolarIconsOutline.gallery,
+                label: strings.chooseFromGallery,
                 source: ImageSource.gallery,
               ),
             ],
           ),
         ),
-      ),
-    ),
+      );
+    },
   );
 }
 
@@ -50,10 +53,12 @@ class _SourceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colors;
+
     return ListTile(
       onTap: () => Navigator.of(context).pop(source),
-      leading: Icon(icon, color: AppColors.teal, size: 26.r),
-      title: Text(label, style: AppTextStyles.fieldLabel),
+      leading: Icon(icon, color: palette.accent, size: 26.r),
+      title: Text(label, style: AppTextStyles.fieldLabel(context)),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
     );
   }

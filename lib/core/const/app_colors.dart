@@ -35,4 +35,28 @@ class AppColors {
     end: Alignment.centerRight,
     colors: [navy, navyLight],
   );
+
+  static const Color darkPrimary = Color(0xFF445A68);
+  static const Color darkPrimaryLight = Color(0xFF52697A);
+  static const Color darkSecondary = Color(0xFF737373);
+  static const Color darkBackground = Color(0xFF10181E);
+  static const Color darkSurface = Color(0xFF1A252D);
+  static const Color darkCard = Color(0xFF16212A);
+  static const Color darkBorder = Color(0xFF2B3A45);
+  static const Color darkText = Color(0xFFE8EEF3);
+  static const Color darkError = Color(0xFFFF6B6F);
+  static const Color darkTrackMarker = Color(0xFF3A4A56);
+
+  static const Color darkMerchantBackground = Color(0xFF14282F);
+  static const Color darkMerchantBorder = Color(0xFF1F4350);
+  static const Color darkCourierBackground = Color(0xFF2B2119);
+  static const Color darkCourierBorder = Color(0xFF4A3622);
+  static const Color darkCustomerBackground = Color(0xFF15222F);
+  static const Color darkCustomerBorder = Color(0xFF23405C);
+
+  static const LinearGradient darkPrimaryGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [darkPrimary, darkPrimaryLight],
+  );
 }

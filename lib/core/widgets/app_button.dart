@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 
-import '../const/app_colors.dart';
 import '../const/app_text_styles.dart';
 
 enum AppButtonVariant { filled, outlined, soft }
@@ -55,34 +55,36 @@ class _AppButtonState extends State<AppButton> {
 
   bool get _enabled => widget.onPressed != null && !widget.isLoading;
 
-  _ButtonColors get _colors {
+  _ButtonColors _colors(AppPalette palette) {
     switch (widget.variant) {
       case AppButtonVariant.filled:
         return _ButtonColors(
-          background: widget.backgroundColor ?? AppColors.navy,
-          foreground: widget.foregroundColor ?? Colors.white,
+          background: widget.backgroundColor ?? palette.primary,
+          foreground: widget.foregroundColor ?? palette.onPrimary,
         );
       case AppButtonVariant.outlined:
         return _ButtonColors(
-          background: widget.backgroundColor ?? Colors.white,
-          foreground: widget.foregroundColor ?? AppColors.navy,
-          border: widget.borderColor ?? AppColors.border,
+          background: widget.backgroundColor ?? palette.card,
+          foreground: widget.foregroundColor ?? palette.text,
+          border: widget.borderColor ?? palette.border,
         );
       case AppButtonVariant.soft:
         return _ButtonColors(
-          background: widget.backgroundColor ??
-              AppColors.tealLight.withValues(alpha: 0.12),
-          foreground: widget.foregroundColor ?? AppColors.teal,
+          background:
+              widget.backgroundColor ?? palette.accent.withValues(alpha: 0.12),
+          foreground: widget.foregroundColor ?? palette.link,
         );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final colors = _colors;
+    final palette = context.colors;
+    final colors = _colors(palette);
     final radius = BorderRadius.circular(widget.radius ?? 16.r);
-    final shadow = widget.showShadow ?? widget.variant == AppButtonVariant.filled;
-    final shadowColor = widget.backgroundColor ?? AppColors.navy;
+    final shadow =
+        widget.showShadow ?? widget.variant == AppButtonVariant.filled;
+    final shadowColor = widget.backgroundColor ?? palette.primary;
 
     return AnimatedScale(
       scale: _pressed && _enabled ? 0.97 : 1,
@@ -141,12 +143,7 @@ class _AppButtonState extends State<AppButton> {
 
     final icon = widget.trailingIcon == null
         ? null
-        : Icon(
-            widget.trailingIcon,
-            color: foreground,
-            size: 26.r,
-            textDirection: TextDirection.ltr,
-          );
+        : Icon(widget.trailingIcon, color: foreground, size: 26.r);
     final inlineIcon = widget.iconPlacement == AppButtonIconPlacement.inline;
 
     final label = FittedBox(
@@ -161,13 +158,10 @@ class _AppButtonState extends State<AppButton> {
           Text(
             widget.label,
             maxLines: 1,
-            style: (widget.textStyle ?? AppTextStyles.buttonLabel)
+            style: (widget.textStyle ?? AppTextStyles.buttonLabel(context))
                 .copyWith(color: foreground),
           ),
-          if (icon != null && inlineIcon) ...[
-            SizedBox(width: 10.w),
-            icon,
-          ],
+          if (icon != null && inlineIcon) ...[SizedBox(width: 10.w), icon],
         ],
       ),
     );
@@ -177,12 +171,7 @@ class _AppButtonState extends State<AppButton> {
     return Stack(
       children: [
         Center(child: label),
-        PositionedDirectional(
-          start: 0,
-          top: 0,
-          bottom: 0,
-          child: Center(child: icon),
-        ),
+        Positioned(right: 0, top: 0, bottom: 0, child: Center(child: icon)),
       ],
     );
   }
