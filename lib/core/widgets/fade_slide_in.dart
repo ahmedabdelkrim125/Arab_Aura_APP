@@ -17,11 +17,7 @@ class FadeSlideIn extends StatelessWidget {
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0, end: 1),
       duration: Duration(milliseconds: totalMs),
-      curve: Interval(
-        index * _stepMs / totalMs,
-        1,
-        curve: Curves.easeOutCubic,
-      ),
+      curve: Interval(index * _stepMs / totalMs, 1, curve: Curves.easeOutCubic),
       builder: (context, t, child) {
         return Opacity(
           opacity: t,

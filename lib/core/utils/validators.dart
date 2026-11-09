@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 
 class Validators {
   Validators._();
@@ -7,44 +8,57 @@ class Validators {
   static final RegExp _phone = RegExp(r'^01[0125][0-9]{8}$');
   static final RegExp _nationalId = RegExp(r'^[23][0-9]{13}$');
 
-  static String? notEmpty(String? value) {
-    if (value == null || value.trim().isEmpty) return 'هذا الحقل مطلوب';
+  static String? _empty(String? value, AppStrings strings) {
+    if (value == null || value.trim().isEmpty) return strings.fieldRequired;
     return null;
   }
 
-  static String? email(String? value) {
-    final empty = notEmpty(value);
-    if (empty != null) return empty;
-    return _email.hasMatch(value!.trim()) ? null : 'البريد الإلكتروني غير صحيح';
+  static FormFieldValidator<String> notEmpty(AppStrings strings) {
+    return (value) => _empty(value, strings);
   }
 
-  static String? phone(String? value) {
-    final empty = notEmpty(value);
-    if (empty != null) return empty;
-    return _phone.hasMatch(value!.trim()) ? null : 'رقم الهاتف غير صحيح';
+  static FormFieldValidator<String> email(AppStrings strings) {
+    return (value) {
+      final empty = _empty(value, strings);
+      if (empty != null) return empty;
+      return _email.hasMatch(value!.trim()) ? null : strings.invalidEmail;
+    };
   }
 
-  static String? nationalId(String? value) {
-    final empty = notEmpty(value);
-    if (empty != null) return empty;
-    return _nationalId.hasMatch(value!.trim())
-        ? null
-        : 'الرقم القومي يجب أن يكون 14 رقماً صحيحاً';
+  static FormFieldValidator<String> phone(AppStrings strings) {
+    return (value) {
+      final empty = _empty(value, strings);
+      if (empty != null) return empty;
+      return _phone.hasMatch(value!.trim()) ? null : strings.invalidPhone;
+    };
   }
 
-  static String? password(String? value) {
-    final empty = notEmpty(value);
-    if (empty != null) return empty;
-    return value!.length >= 8 ? null : 'كلمة المرور يجب ألا تقل عن 8 أحرف';
+  static FormFieldValidator<String> nationalId(AppStrings strings) {
+    return (value) {
+      final empty = _empty(value, strings);
+      if (empty != null) return empty;
+      return _nationalId.hasMatch(value!.trim())
+          ? null
+          : strings.invalidNationalId;
+    };
+  }
+
+  static FormFieldValidator<String> password(AppStrings strings) {
+    return (value) {
+      final empty = _empty(value, strings);
+      if (empty != null) return empty;
+      return value!.length >= 8 ? null : strings.passwordTooShort;
+    };
   }
 
   static FormFieldValidator<String> confirmPassword(
     TextEditingController password,
+    AppStrings strings,
   ) {
     return (value) {
-      final empty = notEmpty(value);
+      final empty = _empty(value, strings);
       if (empty != null) return empty;
-      return value == password.text ? null : 'كلمتا المرور غير متطابقتين';
+      return value == password.text ? null : strings.passwordsMismatch;
     };
   }
 }

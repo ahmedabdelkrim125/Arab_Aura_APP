@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import '../../../core/const/app_colors.dart';
 
 class OnboardingBackdrop extends StatelessWidget {
@@ -17,9 +18,17 @@ class OnboardingBackdrop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colors;
+
     return RepaintBoundary(
       child: CustomPaint(
-        painter: _BackdropPainter(page, idle, count),
+        painter: _BackdropPainter(
+          page,
+          idle,
+          count,
+          palette.isDark ? palette.primary : AppColors.navy,
+          palette.isDark ? 0.22 : 0.08,
+        ),
         size: Size.infinite,
       ),
     );
@@ -30,9 +39,16 @@ class _BackdropPainter extends CustomPainter {
   final ValueListenable<double> page;
   final Animation<double> idle;
   final int count;
+  final Color baseColor;
+  final double baseAlpha;
 
-  _BackdropPainter(this.page, this.idle, this.count)
-    : super(repaint: Listenable.merge([page, idle]));
+  _BackdropPainter(
+    this.page,
+    this.idle,
+    this.count,
+    this.baseColor,
+    this.baseAlpha,
+  ) : super(repaint: Listenable.merge([page, idle]));
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -63,8 +79,8 @@ class _BackdropPainter extends CustomPainter {
       canvas,
       Offset(size.width * 0.5, size.height),
       size.width * 0.8,
-      AppColors.navy,
-      0.08,
+      baseColor,
+      baseAlpha,
     );
   }
 
@@ -87,6 +103,8 @@ class _BackdropPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _BackdropPainter oldDelegate) {
-    return oldDelegate.count != count;
+    return oldDelegate.count != count ||
+        oldDelegate.baseColor != baseColor ||
+        oldDelegate.baseAlpha != baseAlpha;
   }
 }

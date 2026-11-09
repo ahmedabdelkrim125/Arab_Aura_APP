@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import 'package:arab_ora_app/core/widgets/app_checkbox.dart';
 import '../../../../core/const/app_text_styles.dart';
@@ -17,6 +18,8 @@ class LoginOptionsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -27,7 +30,7 @@ class LoginOptionsRow extends StatelessWidget {
             spacing: 10.w,
             children: [
               AppCheckbox(value: remember, onChanged: onRememberChanged),
-              Text('تذكرني', style: AppTextStyles.caption),
+              Text(strings.rememberMe, style: AppTextStyles.caption(context)),
             ],
           ),
         ),
@@ -36,7 +39,10 @@ class LoginOptionsRow extends StatelessWidget {
           onTap: onForgotPassword,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 6.h),
-            child: Text('نسيت كلمة المرور؟', style: AppTextStyles.link),
+            child: Text(
+              strings.forgotPassword,
+              style: AppTextStyles.link(context),
+            ),
           ),
         ),
       ],

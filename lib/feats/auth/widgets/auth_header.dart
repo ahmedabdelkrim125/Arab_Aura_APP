@@ -23,13 +23,13 @@ class AuthHeader extends StatelessWidget {
           alignment: WrapAlignment.center,
           spacing: 10.w,
           children: [
-            Text(titleStart, style: AppTextStyles.authTitle),
+            Text(titleStart, style: AppTextStyles.authTitle(context)),
             ShaderMask(
               blendMode: BlendMode.srcIn,
               shaderCallback: (bounds) => const LinearGradient(
                 colors: [AppColors.teal, AppColors.tealLight],
               ).createShader(bounds),
-              child: Text(titleEnd, style: AppTextStyles.authTitle),
+              child: Text(titleEnd, style: AppTextStyles.authTitle(context)),
             ),
           ],
         ),
@@ -37,7 +37,7 @@ class AuthHeader extends StatelessWidget {
         Text(
           subtitle,
           textAlign: TextAlign.center,
-          style: AppTextStyles.authSubtitle,
+          style: AppTextStyles.authSubtitle(context),
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../core/const/app_colors.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
+import 'package:arab_ora_app/core/theme/app_palette.dart';
 import '../../../core/const/app_text_styles.dart';
 import '../../../core/utils/responsive_extension.dart';
 import 'press_scale.dart';
@@ -11,6 +12,8 @@ class SkipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.colors;
+
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(begin: 0, end: 1),
       duration: const Duration(milliseconds: 800),
@@ -29,10 +32,13 @@ class SkipButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: palette.surface,
             borderRadius: BorderRadius.circular(30.r),
           ),
-          child: Text('تخطي', style: AppTextStyles.skip),
+          child: Text(
+            AppStrings.of(context).skip,
+            style: AppTextStyles.skip(context),
+          ),
         ),
       ),
     );

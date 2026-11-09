@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:solar_icons/solar_icons.dart';
+import 'package:arab_ora_app/core/localization/app_strings.dart';
 import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import 'package:arab_ora_app/core/utils/validators.dart';
 import 'package:arab_ora_app/core/widgets/app_text_field.dart';
@@ -15,24 +17,26 @@ class PasswordFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppStrings.of(context);
+
     return Column(
       spacing: 12.h,
       children: [
         AppTextField(
           controller: password,
-          hint: 'كلمة المرور',
-          prefixIcon: Icons.lock_outline_rounded,
+          hint: strings.password,
+          prefixIcon: SolarIconsOutline.lock,
           isPassword: true,
           autofillHints: const [AutofillHints.newPassword],
-          validator: Validators.password,
+          validator: Validators.password(strings),
         ),
         AppTextField(
           controller: confirm,
-          hint: 'تأكيد كلمة المرور',
-          prefixIcon: Icons.lock_outline_rounded,
+          hint: strings.confirmPassword,
+          prefixIcon: SolarIconsOutline.lock,
           isPassword: true,
           textInputAction: TextInputAction.done,
-          validator: Validators.confirmPassword(password),
+          validator: Validators.confirmPassword(password, strings),
         ),
       ],
     );

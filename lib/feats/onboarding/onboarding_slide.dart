@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../core/const/app_text_styles.dart';
-import '../../core/utils/responsive_extension.dart';
+import 'package:arab_ora_app/core/const/app_text_styles.dart';
+import 'package:arab_ora_app/core/utils/responsive_extension.dart';
 import 'onboarding_data.dart';
 import 'widgets/onboarding_illustration.dart';
 import 'widgets/onboarding_title.dart';
@@ -24,6 +24,10 @@ class OnboardingSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final direction = Directionality.of(context) == TextDirection.rtl
+        ? -1.0
+        : 1.0;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
@@ -33,12 +37,15 @@ class OnboardingSlide extends StatelessWidget {
             final delta = (index - value).clamp(-1.0, 1.0);
             final active = 1 - delta.abs();
             return Padding(
-              padding: EdgeInsets.fromLTRB(24.w, 56.h, 24.w, bottomInset),
+              padding: EdgeInsets.fromLTRB(24.w, 64.h, 24.w, bottomInset),
               child: Column(
                 children: [
-                  Expanded(flex: 6, child: _illustration(delta, width)),
+                  Expanded(
+                    flex: 6,
+                    child: _illustration(delta, width, direction),
+                  ),
                   SizedBox(height: 20.h),
-                  _texts(delta, active, width),
+                  _texts(context, delta, active, width, direction),
                   const Spacer(),
                 ],
               ),
@@ -49,19 +56,19 @@ class OnboardingSlide extends StatelessWidget {
     );
   }
 
-  Widget _illustration(double delta, double width) {
+  Widget _illustration(double delta, double width, double direction) {
     return Opacity(
       opacity: (1 - delta.abs() * 1.3).clamp(0.0, 1.0),
       child: Transform.translate(
-        offset: Offset(delta * width * 0.45, 0),
+        offset: Offset(direction * delta * width * 0.45, 0),
         child: Transform.scale(
           scale: 1 - delta.abs() * 0.3,
           child: Transform(
             alignment: Alignment.center,
             transform: Matrix4.identity()
               ..setEntry(3, 2, 0.0012)
-              ..rotateY(-delta * 0.9)
-              ..rotateZ(delta * 0.12),
+              ..rotateY(-direction * delta * 0.9)
+              ..rotateZ(direction * delta * 0.12),
             child: OnboardingIllustration(image: item.image, idle: idle),
           ),
         ),
@@ -69,13 +76,19 @@ class OnboardingSlide extends StatelessWidget {
     );
   }
 
-  Widget _texts(double delta, double active, double width) {
+  Widget _texts(
+    BuildContext context,
+    double delta,
+    double active,
+    double width,
+    double direction,
+  ) {
     final subtitle = Curves.easeOut.transform(
       ((active - 0.5) / 0.5).clamp(0.0, 1.0),
     );
 
     return Transform.translate(
-      offset: Offset(-delta * width * 0.35, 0),
+      offset: Offset(-direction * delta * width * 0.35, 0),
       child: Column(
         children: [
           OnboardingTitle(
@@ -91,8 +104,7 @@ class OnboardingSlide extends StatelessWidget {
               child: Text(
                 item.subtitle,
                 textAlign: TextAlign.center,
-                textDirection: TextDirection.rtl,
-                style: AppTextStyles.onboardingSubtitle,
+                style: AppTextStyles.onboardingSubtitle(context),
               ),
             ),
           ),

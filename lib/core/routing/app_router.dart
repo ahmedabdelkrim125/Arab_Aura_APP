@@ -44,7 +44,10 @@ class AppRouter {
 
   static PageRoute<dynamic> _slideFade(Widget page, RouteSettings settings) {
     final curve = CurveTween(curve: Curves.easeOutCubic);
-    final offset = Tween<Offset>(begin: const Offset(0, 0.06), end: Offset.zero);
+    final offset = Tween<Offset>(
+      begin: const Offset(0, 0.06),
+      end: Offset.zero,
+    );
 
     return PageRouteBuilder<dynamic>(
       settings: settings,
