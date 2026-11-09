@@ -1,0 +1,85 @@
+import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:arab_ora_app/core/utils/responsive_extension.dart';
+import '../../../core/const/app_colors.dart';
+import '../../../core/const/app_text_styles.dart';
+
+class ControlMetrics {
+  ControlMetrics._();
+
+  static double get size => 60.w;
+  static double get wideWidth => 176.w;
+}
+
+class BackCircleButton extends StatelessWidget {
+  const BackCircleButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: ControlMetrics.size,
+      height: ControlMetrics.size,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.surface,
+      ),
+      child: Icon(Icons.arrow_back_rounded, color: AppColors.grey, size: 24.r),
+    );
+  }
+}
+
+class NextPillButton extends StatelessWidget {
+  final double factor;
+
+  const NextPillButton({super.key, required this.factor});
+
+  @override
+  Widget build(BuildContext context) {
+    final width = lerpDouble(
+      ControlMetrics.size,
+      ControlMetrics.wideWidth,
+      factor,
+    )!;
+
+    return Container(
+      width: width,
+      height: ControlMetrics.size,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: AppColors.navy,
+        borderRadius: BorderRadius.circular(40.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.navy.withValues(alpha: 0.3),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRect(
+            child: Align(
+              alignment: Alignment.centerRight,
+              widthFactor: factor,
+              child: Opacity(
+                opacity: factor,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 10.w),
+                  child: Text(
+                    'ابدأ الآن',
+                    maxLines: 1,
+                    softWrap: false,
+                    style: AppTextStyles.button,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 26.r),
+        ],
+      ),
+    );
+  }
+}
